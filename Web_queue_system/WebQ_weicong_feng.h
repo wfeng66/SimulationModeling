@@ -6,6 +6,17 @@
 
 namespace WebQ {
 
+	template <class R>
+	struct MyStat
+	{
+		R d;			// average delay
+		R S;			// average serving time
+		R U;			// utilization of server
+		R q;			// average number of responses in queue
+		R W;			// average time in system
+		R X;			// throughput
+	};
+
 
 	template <class T>
 	class UniformRandom {
@@ -19,7 +30,7 @@ namespace WebQ {
 		T x;
 		T y;
 		std::default_random_engine generator;
-		std::uniform_int_distribution<T> distribution;
+		std::uniform_real_distribution<T> distribution; 
 	};
 
 
@@ -27,8 +38,9 @@ namespace WebQ {
 	public:
 		User() : uid(0), t_query(0){};
 		void set_uid(int id) { uid = id; };
-		void think(UniformRandom<int>& think_t, const float sim_time) { t_query = sim_time + think_t.getRandom(); }
+		void think(UniformRandom<float>& think_t, const float sim_time) { t_query = sim_time + think_t.getRandom(); }
 		float query() { return t_query; }
+		int id() { return uid; }
 	private:
 		int uid;
 		float t_query;
@@ -42,14 +54,14 @@ namespace WebQ {
 		int uid;
 
 		// Constructor
-		EventQueue(int t, const std::string& type, const int id) : e_time(t), e_type(type), uid(id) {}
+		EventQueue(float t, const std::string& type, const int id) : e_time(t), e_type(type), uid(id) {}
 
 		std::string type() { return e_type; }
 		int id() { return uid; }
 		float time() { return e_time; }
 
 		// Overload the < operator for comparison
-		bool operator<(const EvenQueue& other) const {
+		bool operator<(const EventQueue& other) const {
 			return e_time > other.e_time;
 		}
 	};
