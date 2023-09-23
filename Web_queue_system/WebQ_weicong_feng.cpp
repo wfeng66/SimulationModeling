@@ -11,7 +11,7 @@ float think_high = 22.0;
 float process_low = 0.2;
 float process_high = 0.3;
 int hour_running = 3;
-int Active_users = 30;
+int Active_users = 100;
 int queue_size = 300;
 
 
